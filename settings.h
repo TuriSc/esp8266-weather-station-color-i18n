@@ -22,36 +22,31 @@
  */
 #ifndef SETTINGS_H
 #define SETTINGS_H
-#include <Arduino.h>
 #include "TZinfo.h"
 
-// Setup
-String WIFI_SSID = "yourssid";
-String WIFI_PASS = "yourpassw0rd";
-#define WIFI_HOSTNAME "ThingPulse-weather-station-color"
+// ************** Setup *************************************************************************
+// **********************************************************************************************
 
-const int UPDATE_INTERVAL_SECS = 10 * 60; // Update every 10 minutes
-const int SLEEP_INTERVAL_SECS = 0;        // Going to sleep after idle times, set 0 for insomnia
-const boolean HARD_SLEEP = false;         // true go into deepSleep false = turn Back light off
+#define OTA_PASSWORD "fDXuid2378sd7623eYa9S8d" // Change this to a random value
+
+String WIFI_SSID = ""; // set from WiFiManager (AccessPoint)
+String WIFI_PASS = ""; // set from WiFiManager (AccessPoint)
+#define WIFI_HOSTNAME I18N_WEATHER_STATION
+
+int UPDATE_INTERVAL_SECS = 20 * 60; // Update every 10 minutes - default
+const int SLEEP_INTERVAL_SECS = 0;  // Going to sleep after idle times, set 0 for insomnia
+const boolean HARD_SLEEP = false;   // true go into deepSleep false = turn Back light off
 
 // OpenWeatherMap Settings
 // Sign up here to get an API key: https://docs.thingpulse.com/how-tos/openweathermap-key/
-String OPEN_WEATHER_MAP_API_KEY = "";
-
+String OPEN_WEATHER_MAP_API_KEY = ""; // set from WiFiManager (AccessPoint)
 /*
 Go to https://openweathermap.org/find?q= and search for a location. Go through the
 result set and select the entry closest to the actual location you want to display 
 data for. It'll be a URL like https://openweathermap.org/city/2657896. The number
 at the end is what you assign to the constant below.
  */
-String OPEN_WEATHER_MAP_LOCATION_ID = "2657896";
-String DISPLAYED_LOCATION_NAME = "Zurich";
-//String OPEN_WEATHER_MAP_LOCATION_ID = "3833367";
-//String DISPLAYED_LOCATION_NAME = "Ushuaia";
-//String OPEN_WEATHER_MAP_LOCATION_ID = "2147714";
-//String DISPLAYED_LOCATION_NAME = "Sydney";
-//String OPEN_WEATHER_MAP_LOCATION_ID = "5879400";
-//String DISPLAYED_LOCATION_NAME = "Anchorage";
+String OPEN_WEATHER_MAP_LOCATION_ID = ""; // set from WiFiManager (AccessPoint)
 
 /*
 Arabic -> ar, Bulgarian -> bg, Catalan -> ca, Czech -> cz, German -> de, Greek -> el,
@@ -62,17 +57,15 @@ Portuguese -> pt, Romanian -> ro, Russian -> ru, Swedish -> se, Slovak -> sk,
 Slovenian -> sl, Spanish -> es, Turkish -> tr, Ukrainian -> ua, Vietnamese -> vi,
 Chinese Simplified -> zh_cn, Chinese Traditional -> zh_tw.
 */
-const String OPEN_WEATHER_MAP_LANGUAGE = "en";
+const String OPEN_WEATHER_MAP_LANGUAGE = I18N_LOCALE;
 
-// Adjust according to your language
-const String WDAY_NAMES[] = {"SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"};
-const String MONTH_NAMES[] = {"JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"};
-const String SUN_MOON_TEXT[] = {"Sun", "Rise", "Set", "Moon", "Age", "Illum"};
-const String MOON_PHASES[] = {"New Moon", "Waxing Crescent", "First Quarter", "Waxing Gibbous",
-                              "Full Moon", "Waning Gibbous", "Third quarter", "Waning Crescent"};
+const String SUN_MOON_TEXT[] = {I18N_SUN, I18N_SUNRISE, I18N_SUNSET, I18N_MOON, I18N_PHASE, I18N_ILLUMINATED};
+const String WDAY_NAMES[] = {I18N_SUN, I18N_MON, I18N_TUE, I18N_WED, I18N_THU, I18N_FRI, I18N_SAT};
+const String MONTH_NAMES[] = {I18N_JAN, I18N_FEB, I18N_MAR, I18N_APR, I18N_MAY, I18N_JUN, I18N_JUL, I18N_AUG, I18N_SEP, I18N_OCT, I18N_NOV, I18N_DEC};
+const String MOON_PHASES[] = {I18N_MOON_NEW, I18N_MOON_WAXING_CRESCENT, I18N_MOON_FIRST_QUARTER, I18N_MOON_WAXING_GIBBOUS, I18N_MOON_FULL, I18N_MOON_WANING_GIBBOUS, I18N_MOON_LAST_QUARTER, I18N_MOON_WANING_CRESCENT};
 
 // pick one from TZinfo.h
-String TIMEZONE = getTzInfo("Europe/Zurich");
+String TIMEZONE = getTzInfo(I18N_TZ);
 
 // values in metric or imperial system?
 bool IS_METRIC = true;
@@ -81,7 +74,10 @@ bool IS_METRIC = true;
 bool IS_STYLE_12HR = false;
 
 // Change for HH:MM/ HH:MM:SS format clock
-bool IS_STYLE_HHMM = false; // true => HH:MM
+bool IS_STYLE_HHMM = true; // true => HH:MM
+
+// ************** Setup - End *******************************************************************
+// **********************************************************************************************
 
 // change for different NTP (time servers)
 #define NTP_SERVERS "pool.ntp.org"
@@ -97,17 +93,20 @@ const char MOON_ICONS_SOUTH_WANING[] = {64, 78, 79, 80, 81, 82, 83, 84, 85, 86, 
 const char MOON_ICONS_SOUTH_WAXING[] = {64, 77, 76, 75, 74, 73, 72, 71, 70, 69, 68, 67, 66, 65, 48};
 
 // August 1st, 2018
-#define NTP_MIN_VALID_EPOCH 1533081600
+// #define NTP_MIN_VALID_EPOCH 1533081600
+// October Third, 2022
+#define NTP_MIN_VALID_EPOCH 1664802185
 
 // Pins for the ILI9341
-#define TFT_DC D2
-#define TFT_CS D1
-#define TFT_LED D8
+#define TFT_DC    2     // D4
+#define TFT_CS    4 // D2
+#define TFT_LED 15 //D8
+//
 
-#define HAVE_TOUCHPAD
-#define TOUCH_CS D3
-#define TOUCH_IRQ  D4
-
+#define BUTTON_PIN 5 //D1 
+// GPIO where the DS18B20 is connected to
+#define SENSOR_PIN 0 // D3 
+//16 //D0
 
 /***************************
  * End Settings
