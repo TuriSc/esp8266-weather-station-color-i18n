@@ -18,8 +18,8 @@
 #include <push_button.h>
 #include <SunMoonCalc.h>
 
+#include <DNSServer.h>
 #include <ESP8266WebServer.h>
-ESP8266WebServer  server(80);
 
 /***
    Install the following libraries
@@ -120,6 +120,10 @@ bool btnClick;
 float temperatureC;
 float temperatureF;
 
+ESP8266WebServer  server(80);
+const byte DNS_PORT = 53;
+DNSServer dnsServer;
+
 // *****************************************************************************************************************************************************
 
 void setup() {
@@ -187,7 +191,7 @@ void setup() {
   Serial.println("dividerBottom = "+ (String)dividerBottom);
   Serial.println("dividerMiddle = "+ (String)dividerMiddle);
 
-  connectWifi(); // mit WLAN verbinden
+  connectWifi();
 
   // #######################################################################################
   // Arduino OTA/DNS
@@ -286,7 +290,10 @@ void setup() {
 // *****************************************************************************************************************************************************
 
 void loop() {
-if (WIFI_SSID == "" | WIFI_PASS == "" | OPEN_WEATHER_MAP_API_KEY == "" | OPEN_WEATHER_MAP_LOCATION_ID == "") {server.handleClient();} else
+if (WIFI_SSID == "" | WIFI_PASS == "" | OPEN_WEATHER_MAP_API_KEY == "" | OPEN_WEATHER_MAP_LOCATION_ID == "") {
+  server.handleClient();
+  dnsServer.processNextRequest();
+  } else
 {  
    WiFi.mode(WIFI_STA);
   if (WiFi.status() == WL_CONNECTED) 

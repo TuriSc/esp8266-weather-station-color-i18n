@@ -19,7 +19,8 @@ void CaptivePortal(){
 WiFi.mode(WIFI_AP);
 WiFi.softAPConfig(cpIP, cpIP, IPAddress(255, 255, 255, 0));   //Captive Portal IP-Address
 WiFi.softAP(ProgramName, "");
-server.onNotFound(WebSiteNotFound);
+dnsServer.start(DNS_PORT, "*", cpIP);
+server.onNotFound(handlePortal);
 server.on("/", handlePortal);
 server.begin();
 }
