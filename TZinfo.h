@@ -9,7 +9,7 @@
 #include <Arduino.h>
 
 String getTzInfo(const String timezone) {
-  if (timezone == "Africa/Abidjan")	return PSTR("GMT0");
+ if (timezone == "Africa/Abidjan")	return PSTR("GMT0");
   if (timezone == "Africa/Accra")	return PSTR("GMT0");
   if (timezone == "Africa/Addis_Ababa")	return PSTR("EAT-3");
   if (timezone == "Africa/Algiers")	return PSTR("CET-1");

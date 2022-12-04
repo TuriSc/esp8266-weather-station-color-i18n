@@ -31,6 +31,7 @@
 
 String WIFI_SSID = ""; // set from WiFiManager (AccessPoint)
 String WIFI_PASS = ""; // set from WiFiManager (AccessPoint)
+String TZ_LOCATION = "Europe/Rome"; // can be changed from WiFiManager (AccessPoint)
 #define WIFI_HOSTNAME I18N_WEATHER_STATION
 
 int UPDATE_INTERVAL_SECS = 20 * 60; // Update every 10 minutes - default
@@ -65,7 +66,8 @@ const String MONTH_NAMES[] = {I18N_JAN, I18N_FEB, I18N_MAR, I18N_APR, I18N_MAY, 
 const String MOON_PHASES[] = {I18N_MOON_NEW, I18N_MOON_WAXING_CRESCENT, I18N_MOON_FIRST_QUARTER, I18N_MOON_WAXING_GIBBOUS, I18N_MOON_FULL, I18N_MOON_WANING_GIBBOUS, I18N_MOON_LAST_QUARTER, I18N_MOON_WANING_CRESCENT};
 
 // pick one from TZinfo.h
-String TIMEZONE = getTzInfo(I18N_TZ);
+// String TIMEZONE = getTzInfo(TZ_LOCATION);
+String TIMEZONE;  
 
 // values in metric or imperial system?
 bool IS_METRIC = true;

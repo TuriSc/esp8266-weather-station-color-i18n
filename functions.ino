@@ -55,7 +55,7 @@ Serial.println("Load Adjustments ...");
   WIFI_SSID.trim();
   if (LittleFS.exists("/ssid-passwd.txt")){
   WIFI_PASS = SetupLoad("ssid-passwd.txt");} else {WIFI_PASS = "";}
-  WIFI_PASS.trim();
+  WIFI_PASS.trim();  
   if (LittleFS.exists("/owm-apikey.txt")){
   OPEN_WEATHER_MAP_API_KEY = SetupLoad("owm-apikey.txt");} else {OPEN_WEATHER_MAP_API_KEY = "";}
   OPEN_WEATHER_MAP_API_KEY.trim();
@@ -65,6 +65,9 @@ Serial.println("Load Adjustments ...");
   if (LittleFS.exists("/owm-uwd.txt")){
   UWD = SetupLoad("owm-uwd.txt");} else { UWD = "";} 
   UWD.trim();
+  if (LittleFS.exists("/owm-timezone.txt")){
+  TIMEZONE = SetupLoad("owm-timezone.txt");} else {TIMEZONE = "";}
+  TIMEZONE.trim();
 
   // Check Update-Interval
   if (!IsNumeric(UWD)) {UWDInt = 10;} else {UWDInt = UWD.toInt();}
@@ -88,6 +91,7 @@ SetupSave("owm-cityid.txt", OPEN_WEATHER_MAP_LOCATION_ID);} else {
 if (LittleFS.exists("/owm-apikey.txt")){LittleFS.remove("/owm-apikey.txt");}
 if (LittleFS.exists("/owm-cityid.txt")){LittleFS.remove("/owm-cityid.txt");}} 
 SetupSave("owm-uwd.txt", UWD); // OpenWeatherMap update interval
+SetupSave("owm-timezone.txt", TIMEZONE);
   }  
 }
 
@@ -101,6 +105,7 @@ if (OPEN_WEATHER_MAP_API_KEY != "" && OPEN_WEATHER_MAP_LOCATION_ID != "") {
 SetupSave("owm-apikey.txt", OPEN_WEATHER_MAP_API_KEY); 
 SetupSave("owm-cityid.txt", OPEN_WEATHER_MAP_LOCATION_ID);}
 SetupSave("owm-uwd.txt", UWD);
+SetupSave("owm-timezone.txt", TIMEZONE);
 MyWaitLoop(500);
 Serial.println("Reset - Restarting");
 ESP.restart();   

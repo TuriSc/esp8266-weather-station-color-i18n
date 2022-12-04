@@ -10,4 +10,8 @@ My contribution is focused on internationalization: I created the Italian versio
 
 I also set up the weather station to use a push-button instead of touchscreen controls, and added a DS18B20 Temperature sensor to display internal temperature alongside the weather data pulled live from OpenWeatherMap.
 
+Pressing the button switches to the next screen.
+A double press switches to the about screen.
+A triple press switches to the reset screen.
+
 Project notes and more info at [turiscandurra.com/circuits](https://turiscandurra.com/circuits)

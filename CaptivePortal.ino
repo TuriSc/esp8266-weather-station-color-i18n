@@ -22,7 +22,6 @@ WiFi.softAP(ProgramName, "");
 server.onNotFound(WebSiteNotFound);
 server.on("/", handlePortal);
 server.begin();
-handlePortal(); //TODO TEST OR REMOVE
 }
 
 // *****************************************************************************************************************************************************
@@ -34,7 +33,9 @@ int loops = 0; // for Sort SSID's
 if (ProgramName == "") {ProgramName = "Hostname";} 
 if (server.method() == HTTP_POST) {
     WIFI_SSID = server.arg("ssid"); // Wifi SSID
-    WIFI_PASS = server.arg("password"); // Wifi SSID Passwort
+    WIFI_PASS = server.arg("password"); // Wifi SSID Password
+    TZ_LOCATION = server.arg("timezone");
+    TIMEZONE = getTzInfo(TZ_LOCATION);
     OPEN_WEATHER_MAP_API_KEY = server.arg("apikey"); // OpenWeatherMap - API-Key
     OPEN_WEATHER_MAP_LOCATION_ID = server.arg("cityid"); // OpenWeatherMap - City ID
     UWD = server.arg("uwd"); // OpenWeatherMap - Update-Interval in Minutes
@@ -202,7 +203,10 @@ if (server.method() == HTTP_POST) {
     HTMLString += "<br/>";
     HTMLString += "<div class='form-floating'><label>SSID</label><input type='text' class='form-control' name='ssid' id='ssid' value='' id='CPSSID'></div>";
     HTMLString += "<div class='form-floating'><br/><label>Password</label><input type='password' class='form-control' name='password' id='password' value=''></div>";
-    HTMLString += "<br/>"; 
+    HTMLString += "<br/>";
+    
+    HTMLString += "<div class='form-floating'><br/><label>"I18N_TIMEZONE"</label><input type='text' class='form-control' name='timezone' id='timezone' value='"+TZ_LOCATION+"'></div>";
+
     // ******************************************* Parameter ************************************************************************************************************************************
     HTMLString += "<div class='form-floating'><br/><label>OpenWeatherMap - API-Key</label><input type='text' class='form-control' name='apikey' id='apikey' value='"+OPEN_WEATHER_MAP_API_KEY+"'></div>";
     HTMLString += "<div class='form-floating'><br/><label>OpenWeatherMap - City-ID</label><input type='text' class='form-control' name='cityid' id='cityid' value='"+OPEN_WEATHER_MAP_LOCATION_ID+"'></div>";

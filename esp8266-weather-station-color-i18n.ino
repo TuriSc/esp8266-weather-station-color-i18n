@@ -108,7 +108,7 @@ int MaxWiFiConnectLoop = 350;
 
 int waitloop = 0; 
 int WSReset = 0;
-String UWD = "20";
+String UWD = "10";
 String LastWeatherUpdateTime = "";
 
 //flag for saving data WiFiManager
@@ -149,6 +149,7 @@ void setup() {
   digitalWrite(TFT_LED, HIGH);    // HIGH to Turn on;
 
   gfx.init();
+  tft.setRotation(3);
   gfx.setRotation(3); // Edit or remove this line if your screen appears rotated
   gfx.fillBuffer(MINI_BLACK);
   gfx.commit();
