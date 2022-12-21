@@ -98,8 +98,8 @@ uint8_t screen = 0;
 uint16_t dividerTop, dividerBottom, dividerMiddle;
 
 long timerPress;
-bool canBtnPress;
-bool sleep_mode();
+void sleep_mode_toggle();
+bool sleeping;
 char* make12_24(int hour);
 
 bool isFSMounted = false;
@@ -229,7 +229,6 @@ void setup() {
   if (OWMupdateData > 4) {ResetWeatherStation();}}
 
   timerPress = millis();
-  canBtnPress = true;
 
 // Get all information of your LittleFS
     if (isFSMounted == true)
@@ -298,22 +297,23 @@ if (WIFI_SSID == "" | WIFI_PASS == "" | OPEN_WEATHER_MAP_API_KEY == "" | OPEN_WE
    WiFi.mode(WIFI_STA);
   if (WiFi.status() == WL_CONNECTED) 
   {
-  ArduinoOTA.handle();  
-  static bool asleep = false;	//  asleep used to stop screen change after touch for wake-up
+  ArduinoOTA.handle();
   gfx.fillBuffer(MINI_BLACK);
 
   switch (button.getEvent()) {
     case pb::PushButton::Event::SHORT_PRESS:
     case pb::PushButton::Event::LONG_PRESS:
-      if (!asleep) screen = (screen + 1) % 4;
+        if (!sleeping) screen = (screen + 1) % 4;
+        timerPress = millis();
+        wake_up_from_sleep();
         break;
     case pb::PushButton::Event::LONG_HOLD:
         break;
     case pb::PushButton::Event::DOUBLE_PRESS:
-        if (!asleep) screen = 4;
+        if (!sleeping) screen = 4;
         break;
     case pb::PushButton::Event::TRIPLE_PRESS:
-        if (!asleep) screen = 5;
+        if (!sleeping) screen = 5;
         break;
     case pb::PushButton::Event::NOT_READY:
         //Serial.println("D7 PushButton::Event::NOT_READY");
@@ -326,8 +326,9 @@ if (WIFI_SSID == "" | WIFI_PASS == "" | OPEN_WEATHER_MAP_API_KEY == "" | OPEN_WE
         break;
     }
 
+  sleep_mode_task();
 
-  if (!(asleep = sleep_mode())) {
+  if (!sleeping) {
     if (screen == 0) {
       drawTime();
 
@@ -369,7 +370,7 @@ if (WIFI_SSID == "" | WIFI_PASS == "" | OPEN_WEATHER_MAP_API_KEY == "" | OPEN_WE
       updateData();
       lastDownloadUpdate = millis();
     }
-  } //!asleep
+  }
   } else {connectWifi();}
 }
 }

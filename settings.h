@@ -35,7 +35,7 @@ String TZ_LOCATION = "Europe/Rome"; // can be changed from WiFiManager (AccessPo
 #define WIFI_HOSTNAME I18N_WEATHER_STATION
 
 int UPDATE_INTERVAL_SECS = 20 * 60; // Update every 10 minutes - default
-const int SLEEP_INTERVAL_SECS = 0;  // Going to sleep after idle times, set 0 for insomnia
+const int SLEEP_INTERVAL_SECS = 60;  // Going to sleep after idle times, set 0 for insomnia
 const boolean HARD_SLEEP = false;   // true go into deepSleep false = turn Back light off
 
 // OpenWeatherMap Settings
@@ -108,7 +108,8 @@ const char MOON_ICONS_SOUTH_WAXING[] = {64, 77, 76, 75, 74, 73, 72, 71, 70, 69, 
 #define BUTTON_PIN 5 //D1 
 // GPIO where the DS18B20 is connected to
 #define SENSOR_PIN 0 // D3 
-//16 //D0
+
+//#define UNUSED_PIN 16 //D0
 
 /***************************
  * End Settings

@@ -207,50 +207,26 @@ bool SetupSave(String file_name, String contents) {
   return true;
 }
 
-// *****************************************************************************************************************************************************
 
-/*Check and activate when it is time to go to sleep
-
-    parameters: (defined in settings)
-      SLEEP_INTERVAL_SECS   time between screen touches in seconds before activating sleep mode
-      HARD_SLEEP        true  -> deep sleep requiring interrupt or reset to wake
-                  false -> soft sleep turning off backlight wake with screen press
-
-    returns: true when sleep mode is active
-*/
-bool sleep_mode() {
-  static bool sleeping = false; // no need to waste time painting going to sleep screens
-  if (SLEEP_INTERVAL_SECS
-      && millis() - timerPress >= SLEEP_INTERVAL_SECS * 1000) { // after 2 minutes go to sleep
-    if (true == sleeping)
-      return sleeping;  // all-ready asleep
-
-    int s = 0;
-    do {
-      drawProgress(s, I18N_SLEEP_MODE);
-      delay(10);
-      yield();
-    } while (s++ < 100);
-    if (s < 100) {                         // early exit abort
-      timerPress = millis();               // reset sleep timeout
-      //touch stuff was here
-    } else {
-      sleeping = true;
-      if (true == HARD_SLEEP) {
-        // go to deepsleep for xx minutes or 0 = permanently
-        ESP.deepSleep(0, WAKE_RF_DEFAULT); // 0 delay = permanently to sleep
-      } else {
-        digitalWrite(TFT_LED, LOW);        // Back light OFF
-      }
+void sleep_mode_task() {
+  if (SLEEP_INTERVAL_SECS &&
+    millis() - timerPress >= SLEEP_INTERVAL_SECS * 1000) { // after N seconds go to sleep
+        sleeping = true;
+        if (true == HARD_SLEEP) {
+          // go to deepsleep for xx minutes or 0 = permanently
+          ESP.deepSleep(0, WAKE_RF_DEFAULT); // 0 delay = permanently to sleep
+        } else {
+          digitalWrite(TFT_LED, LOW);        // Back light OFF
+        }
     }
-  } else {                                 // Not time to sleep
+}
+
+void wake_up_from_sleep(){
     if (sleeping) {                        // Wake up
-      digitalWrite(TFT_LED, HIGH);         // Back light ON
+      digitalWrite(TFT_LED, HIGH);       // Back light ON
       sleeping = false;
-    }
   }
-  return sleeping;  // used to prevent screen changes on wake-up screen press
-} // sleep_mode()
+}
 
 // *****************************************************************************************************************************************************
 
@@ -316,7 +292,7 @@ void drawProgress(uint8_t percentage, String text) {
   gfx.setTextAlignment(TEXT_ALIGN_CENTER);
   gfx.setColor(MINI_COLOR_A);
   gfx.drawString(120, 146, text);
-  gfx.drawString(115, 190, I18N_LOADING);
+  //gfx.drawString(115, 190, I18N_LOADING); // Redundant
   gfx.setColor(MINI_WHITE);
   gfx.drawRect(10, 168, 240 - 20, 15);
   gfx.setColor(MINI_COLOR_B);
@@ -405,8 +381,8 @@ void drawCurrentWeather() {
   gfx.setFont(ArialRoundedMTBold_14);
   gfx.setColor(MINI_WHITE);
   gfx.setTextAlignment(TEXT_ALIGN_RIGHT);
-  gfx.drawString(235, 84, I18N_INTERNAL_TEMPERATURE_SHORT);
-  gfx.drawString(235, 98, String((IS_METRIC ? temperatureC : temperatureF), 1) + (IS_METRIC ? " °C" : " °F")); // One decimal place
+  gfx.drawString(235, 27, I18N_INTERNAL_TEMPERATURE_SHORT);
+  gfx.drawString(235, 41, String((IS_METRIC ? temperatureC : temperatureF), 1) + (IS_METRIC ? " °C" : " °F")); // One decimal place
 
   gfx.setFont(ArialRoundedMTBold_14);
   gfx.setColor(MINI_COLOR_A);
