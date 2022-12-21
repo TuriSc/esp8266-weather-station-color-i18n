@@ -297,10 +297,10 @@ void updateData() {
 void drawLogo(){
 
   gfx.setFont(ArialRoundedMTBold_36);
-  gfx.setColor(MINI_YELLOW);
+  gfx.setColor(MINI_COLOR_A);
   gfx.setTextAlignment(TEXT_ALIGN_CENTER);
   gfx.drawString(120, 10, I18N_LOGO_UPPER);
-  gfx.setColor(MINI_BLUE);
+  gfx.setColor(MINI_COLOR_B);
   gfx.drawString(120, 46, I18N_LOGO_LOWER);
 
 }
@@ -314,12 +314,12 @@ void drawProgress(uint8_t percentage, String text) {
   gfx.setFont(ArialRoundedMTBold_14);
   gfx.setColor(MINI_WHITE);
   gfx.setTextAlignment(TEXT_ALIGN_CENTER);
-  gfx.setColor(MINI_YELLOW);
+  gfx.setColor(MINI_COLOR_A);
   gfx.drawString(120, 146, text);
   gfx.drawString(115, 190, I18N_LOADING);
   gfx.setColor(MINI_WHITE);
   gfx.drawRect(10, 168, 240 - 20, 15);
-  gfx.setColor(MINI_BLUE);
+  gfx.setColor(MINI_COLOR_B);
   gfx.fillRect(12, 170, 216 * percentage / 100, 11);
   gfx.commit();
 }
@@ -359,7 +359,7 @@ void drawTime() {
 
   gfx.setTextAlignment(TEXT_ALIGN_LEFT);
   gfx.setFont(ArialMT_Plain_10);
-  gfx.setColor(MINI_BLUE);
+  gfx.setColor(MINI_COLOR_B);
   if (IS_STYLE_12HR) {
     sprintf(time_str, "\n%s", timeinfo->tm_hour >= 12 ? "PM" : "AM");
     gfx.drawString(195, 27, time_str);
@@ -393,7 +393,7 @@ void drawCurrentWeather() {
   gfx.drawPalettedBitmapFromPgm(0, 55, getMeteoconIconFromProgmem(currentWeather.icon));
 
   gfx.setFont(ArialRoundedMTBold_14);
-  gfx.setColor(MINI_BLUE);
+  gfx.setColor(MINI_COLOR_B);
   gfx.setTextAlignment(TEXT_ALIGN_RIGHT);
   gfx.drawString(220, 65, currentWeather.cityName);
 
@@ -409,7 +409,7 @@ void drawCurrentWeather() {
   gfx.drawString(235, 98, String((IS_METRIC ? temperatureC : temperatureF), 1) + (IS_METRIC ? " °C" : " °F")); // One decimal place
 
   gfx.setFont(ArialRoundedMTBold_14);
-  gfx.setColor(MINI_YELLOW);
+  gfx.setColor(MINI_COLOR_A);
   gfx.setTextAlignment(TEXT_ALIGN_RIGHT);
   gfx.drawString(235, 122, currentWeather.description);
 }
@@ -442,7 +442,7 @@ void drawForecast3(MiniGrafx *display, CarouselState* state, int16_t x, int16_t 
 
 // helper for the forecast columns
 void drawForecastDetail(uint16_t x, uint16_t y, uint8_t dayIndex) {
-  gfx.setColor(MINI_YELLOW);
+  gfx.setColor(MINI_COLOR_A);
   gfx.setFont(ArialRoundedMTBold_14);
   gfx.setTextAlignment(TEXT_ALIGN_CENTER);
   time_t time = forecasts[dayIndex].observationTime;
@@ -455,7 +455,7 @@ void drawForecastDetail(uint16_t x, uint16_t y, uint8_t dayIndex) {
   gfx.drawString(x + 25, y + 4, String(forecasts[dayIndex].temp, 1) + (IS_METRIC ? " °C" : " °F"));
 
   gfx.drawPalettedBitmapFromPgm(x, y + 20, getMiniMeteoconIconFromProgmem(forecasts[dayIndex].icon));
-  gfx.setColor(MINI_BLUE);
+  gfx.setColor(MINI_COLOR_B);
   gfx.drawString(x + 25, y + 65, String(forecasts[dayIndex].rain, 1) + (IS_METRIC ? " mm" : " in"));
 }
 
@@ -471,11 +471,11 @@ void drawAstronomy() {
   gfx.setColor(MINI_WHITE);
   gfx.setFont(ArialRoundedMTBold_14);
   gfx.setTextAlignment(TEXT_ALIGN_CENTER);
-  gfx.setColor(MINI_YELLOW);
+  gfx.setColor(MINI_COLOR_A);
   gfx.drawString(120, 250, MOON_PHASES[moonData.phase.index]);
 
   gfx.setTextAlignment(TEXT_ALIGN_LEFT);
-  gfx.setColor(MINI_YELLOW);
+  gfx.setColor(MINI_COLOR_A);
   gfx.drawString(5, 250, SUN_MOON_TEXT[0]);
   gfx.setColor(MINI_WHITE);
   time_t time = currentWeather.sunrise;
@@ -490,7 +490,7 @@ void drawAstronomy() {
   {gfx.drawString(35, 291, getTime(&time));}
 
   gfx.setTextAlignment(TEXT_ALIGN_RIGHT);
-  gfx.setColor(MINI_YELLOW);
+  gfx.setColor(MINI_COLOR_A);
   gfx.drawString(235, 250, SUN_MOON_TEXT[3]);
   gfx.setColor(MINI_WHITE);
 
@@ -555,7 +555,7 @@ void drawLabelValue(uint8_t line, String label, String value) {
   const uint8_t labelX = 15;
   const uint8_t valueX = 130; // Default: 150
   gfx.setTextAlignment(TEXT_ALIGN_LEFT);
-  gfx.setColor(MINI_YELLOW);
+  gfx.setColor(MINI_COLOR_A);
   gfx.drawString(labelX, 30 + line * 15, label);
   gfx.setColor(MINI_WHITE);
   gfx.drawString(valueX, 30 + line * 15, value);
@@ -625,36 +625,36 @@ void drawForecastTable(uint8_t start) {
 
     gfx.drawPalettedBitmapFromPgm(0, 0 + y, getMiniMeteoconIconFromProgmem(forecasts[i].icon));
     gfx.setTextAlignment(TEXT_ALIGN_LEFT);
-    gfx.setColor(MINI_YELLOW);
+    gfx.setColor(MINI_COLOR_A);
     gfx.setFont(ArialRoundedMTBold_14);
     gfx.setTextAlignment(TEXT_ALIGN_LEFT);
 
-    gfx.setColor(MINI_BLUE);
+    gfx.setColor(MINI_COLOR_B);
     gfx.drawString(firstColumnLabelX, y+1, I18N_TEMPERATURE_SHORT);
     gfx.setColor(MINI_WHITE);
     gfx.drawString(firstColumnValueX, y+1, "  " + String(forecasts[i].temp, 0) + degreeSign);
 
-    gfx.setColor(MINI_BLUE);
+    gfx.setColor(MINI_COLOR_B);
     gfx.drawString(firstColumnLabelX, y + 16, I18N_HUMIDITY_SHORT);
     gfx.setColor(MINI_WHITE);
     gfx.drawString(firstColumnValueX, y + 16, "   " + String(forecasts[i].humidity) + " %");
 
-    gfx.setColor(MINI_BLUE);
+    gfx.setColor(MINI_COLOR_B);
     gfx.drawString(firstColumnLabelX, y + 31, I18N_RAIN_SHORT);
     gfx.setColor(MINI_WHITE);
     gfx.drawString(firstColumnValueX, y + 31, "  " + String(forecasts[i].rain, 0) + (IS_METRIC ? " mm" : " in"));
 
-    gfx.setColor(MINI_BLUE);
+    gfx.setColor(MINI_COLOR_B);
     gfx.drawString(secondColumnLabelX+1, y+1, I18N_PRESSURE_SHORT);
     gfx.setColor(MINI_WHITE);
     gfx.drawString(secondColumnValueX, y+1, String(forecasts[i].pressure, 0) + " hPa");
 
-    gfx.setColor(MINI_BLUE);
+    gfx.setColor(MINI_COLOR_B);
     gfx.drawString(secondColumnLabelX+1, y + 16, I18N_WIND_SPEED_SHORT);
     gfx.setColor(MINI_WHITE);
     gfx.drawString(secondColumnValueX, y + 16, String(forecasts[i].windSpeed*3.6, 0) + (IS_METRIC ? " km/h" : " mph") );
 
-    gfx.setColor(MINI_BLUE);
+    gfx.setColor(MINI_COLOR_B);
     gfx.drawString(secondColumnLabelX+1, y + 31, I18N_WIND_DIR_SHORT);
     gfx.setColor(MINI_WHITE);
     gfx.drawString(secondColumnValueX, y + 31, String(forecasts[i].windDeg, 0) + " °");
@@ -692,7 +692,7 @@ void drawAbout() {
   drawLabelValue(13, "IP address: ", WiFi.localIP().toString());
   drawLabelValue(14, "WiFi SSID: ", String(WiFi.SSID()));
   gfx.setTextAlignment(TEXT_ALIGN_LEFT);
-  gfx.setColor(MINI_YELLOW);
+  gfx.setColor(MINI_COLOR_A);
   gfx.drawString(15, 280, "Last Reset: ");
   gfx.setColor(MINI_WHITE);
   gfx.drawStringMaxWidth(16, 295, 240 - 2 * 15, ESP.getResetInfo());

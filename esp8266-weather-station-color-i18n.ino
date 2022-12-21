@@ -47,8 +47,8 @@
 
 #define MINI_BLACK 0
 #define MINI_WHITE 1
-#define MINI_YELLOW 2
-#define MINI_BLUE 3
+#define MINI_COLOR_A 2
+#define MINI_COLOR_B 3
 
 #define MAX_FORECASTS 12
 
