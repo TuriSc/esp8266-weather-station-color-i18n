@@ -724,20 +724,25 @@ char* make12_24(int hour){
 }
 
 void ResetWeatherStationScreen(){ 
-gfx.clear();
+  gfx.clear();
   gfx.fillBuffer(MINI_BLACK);
   gfx.drawPalettedBitmapFromPgm(20, 5, ThingPulseLogo);
   gfx.setTextAlignment(TEXT_ALIGN_CENTER);
   gfx.setFont(ArialMT_Plain_16);
   gfx.setColor(MINI_WHITE);
   gfx.drawString(120, 90, I18N_WEATHER_STATION);
-gfx.drawString(120, 160, I18N_WEATHER_STATION_RESET);  
-gfx.drawString(120, 180, I18N_CLICK_TO_CANCEL);
-gfx.drawString(120, 270, I18N_WIFI_MANAGER_LAUNCHING);
-if (WSReset > 0 && screen == 5){
-Serial.print(".");
-MyWaitLoop(500); // wait
-WSReset -= 1;
-gfx.drawString(120, 290, (String)WSReset);} 
-if (WSReset <= 0 && screen == 5) {Serial.print("Resetting weather station"); ResetWeatherStation();}  
+  gfx.drawString(120, 160, I18N_WEATHER_STATION_RESET);  
+  gfx.drawString(120, 180, I18N_CLICK_TO_CANCEL);
+  //gfx.drawString(120, 270, I18N_WIFI_MANAGER_LAUNCHING);
+  if (screen == 5){
+    if(WSReset > 0){
+      Serial.print(".");
+      gfx.drawString(120, 240, (String)WSReset);
+      MyWaitLoop(1000); // wait 
+      WSReset--;
+    } else {
+      Serial.print("Resetting weather station");
+      ResetWeatherStation();
+    }
+  }
 }

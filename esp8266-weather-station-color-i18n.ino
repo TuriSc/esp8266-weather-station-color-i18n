@@ -342,26 +342,19 @@ if (WIFI_SSID == "" | WIFI_PASS == "" | OPEN_WEATHER_MAP_API_KEY == "" | OPEN_WE
       }
       drawCurrentWeather();
       drawAstronomy();
-      // sensors.requestTemperatures(); 
-      // temperatureC = sensors.getTempCByIndex(0);
-      // temperatureF = sensors.getTempFByIndex(0);
-      // Serial.print("getTempCByIndex2:");
-      // Serial.print(temperatureC);
-      // Serial.println();
     } else if (screen == 1) {
-      WSReset = MaxWiFiConnectLoop-100; // for Weatherstation Reset
       drawCurrentWeatherDetail();
     } else if (screen == 2) {
-      WSReset = MaxWiFiConnectLoop-100; // for Weatherstation Reset
       drawForecastTable(0);
     } else if (screen == 3) {
-      WSReset = MaxWiFiConnectLoop-100; // for Weatherstation Reset
       drawForecastTable(4);
     } else if (screen == 4) {
-      WSReset = MaxWiFiConnectLoop-100; // for Weatherstation Reset
       drawAbout();
     } else if (screen == 5) {
-    ResetWeatherStationScreen();  
+      ResetWeatherStationScreen();  
+    }
+    if(screen != 5) {
+      WSReset = 30; // Reset the countdown timer
     }
     gfx.commit();
 
