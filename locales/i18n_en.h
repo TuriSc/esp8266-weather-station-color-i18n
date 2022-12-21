@@ -48,6 +48,8 @@
 #define I18N_FORECASTS                  "Forecasts"
 #define I18N_DAY                        "Day"
 #define I18N_NIGHT                      "Night"
+#define I18N_AM                         "AM"
+#define I18N_PM                         "PM"
 #define I18N_WEATHER_STATION_RESET      "Weather Station reset"
 #define I18N_CLICK_TO_CANCEL            "Click to cancel"
 

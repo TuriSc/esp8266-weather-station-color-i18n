@@ -418,16 +418,13 @@ void drawForecast3(MiniGrafx *display, CarouselState* state, int16_t x, int16_t 
 
 // helper for the forecast columns
 void drawForecastDetail(uint16_t x, uint16_t y, uint8_t dayIndex) {
+  time_t time = forecasts[dayIndex].observationTime;
+  struct tm * timeinfo = localtime (&time);
   gfx.setColor(MINI_COLOR_A);
   gfx.setFont(ArialRoundedMTBold_14);
   gfx.setTextAlignment(TEXT_ALIGN_CENTER);
-  time_t time = forecasts[dayIndex].observationTime;
-  struct tm * timeinfo = localtime (&time);
-  if (String(timeinfo->tm_hour) == "14") {
-    gfx.drawString(x + 25, y - 15, WDAY_NAMES[timeinfo->tm_wday] + " (T)");} else
-  {gfx.drawString(x + 25, y - 15, WDAY_NAMES[timeinfo->tm_wday] + " (N)");}
+  gfx.drawString(x + 25, y - 15, WDAY_NAMES[timeinfo->tm_wday] + " " + ((timeinfo->tm_hour > 12) ? I18N_PM : I18N_AM));
   
-  gfx.setColor(MINI_WHITE);
   gfx.drawString(x + 25, y + 4, String(forecasts[dayIndex].temp, 1) + (IS_METRIC ? " °C" : " °F"));
 
   gfx.drawPalettedBitmapFromPgm(x, y + 20, getMiniMeteoconIconFromProgmem(forecasts[dayIndex].icon));
