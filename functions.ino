@@ -376,13 +376,13 @@ void drawCurrentWeather() {
   gfx.setFont(ArialRoundedMTBold_36);
   gfx.setColor(MINI_WHITE);
   gfx.setTextAlignment(TEXT_ALIGN_LEFT);
-  gfx.drawString(100, 78, String(currentWeather.temp, 1) + (IS_METRIC ? " °C" : " °F"));
+  gfx.drawString(100, 78, String(currentWeather.temp, 1) + "°");//(IS_METRIC ? " °C" : " °F"));
 
   gfx.setFont(ArialRoundedMTBold_14);
   gfx.setColor(MINI_WHITE);
   gfx.setTextAlignment(TEXT_ALIGN_RIGHT);
-  gfx.drawString(235, 27, I18N_INTERNAL_TEMPERATURE_SHORT);
-  gfx.drawString(235, 41, String((IS_METRIC ? temperatureC : temperatureF), 1) + (IS_METRIC ? " °C" : " °F")); // One decimal place
+  gfx.drawString(235, 84, I18N_INTERNAL_TEMPERATURE_SHORT);
+  gfx.drawString(235, 98, String((IS_METRIC ? temperatureC : temperatureF), 1) + (IS_METRIC ? " °C" : " °F")); // One decimal place
 
   gfx.setFont(ArialRoundedMTBold_14);
   gfx.setColor(MINI_COLOR_A);
