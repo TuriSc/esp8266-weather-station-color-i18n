@@ -667,9 +667,10 @@ void drawAbout() {
   drawLabelValue(12, "Uptime: ", time_str);
   drawLabelValue(13, "IP address: ", WiFi.localIP().toString());
   drawLabelValue(14, "WiFi SSID: ", String(WiFi.SSID()));
+  drawLabelValue(15, "Build date: ", String(__DATE__));
   gfx.setTextAlignment(TEXT_ALIGN_LEFT);
   gfx.setColor(MINI_COLOR_A);
-  gfx.drawString(15, 280, "Last Reset: ");
+  gfx.drawString(16, 280, "Last Reset: ");
   gfx.setColor(MINI_WHITE);
   gfx.drawStringMaxWidth(16, 295, 240 - 2 * 15, ESP.getResetInfo());
 }
