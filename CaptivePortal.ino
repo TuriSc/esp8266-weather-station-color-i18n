@@ -218,7 +218,7 @@ if (server.method() == HTTP_POST) {
     HTMLString += "</form>";
     HTMLString += "<br/><br/>";
     HTMLString += "<form action='/' method='get'>";
-    HTMLString += "<button type='submit'>"I18N_CANCEL"</button>";
+    HTMLString += "<button type='submit'>"I18N_REFRESH"</button>";
     HTMLString += "</form>";
     HTMLString += "</main>";
     HTMLString += "</body>";

@@ -9,7 +9,7 @@
 
 // Important: see settings.h to configure your settings
 
-#include "i18n_it.h" // Include only the i18n file for your locale 
+#include "locales/i18n_it.h" // Include only the i18n file for your locale
 #include "settings.h"
 #include "time.h"
 #include "LittleFS.h" 

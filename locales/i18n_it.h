@@ -11,7 +11,7 @@
 #define I18N_NO_NETWORK_FOUND           "Nessuna rete rilevata"
 #define I18N_OWM_UPDATES_IN_MINS        "Aggiornamento in minuti"
 #define I18N_SAVE                       "Salva"
-#define I18N_CANCEL                     "Annulla"
+#define I18N_REFRESH                    "Ricarica"
 #define I18N_BACK                       "Indietro"
 #define I18N_LOADING                    "Caricamento"
 #define I18N_WEBSITE_NOT_FOUND          "Pagina web non trovata"
