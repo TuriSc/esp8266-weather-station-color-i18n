@@ -597,9 +597,8 @@ void drawForecastTable(uint8_t start) {
     gfx.setTextAlignment(TEXT_ALIGN_CENTER);
     time_t time = forecasts[i].observationTime;
     struct tm * timeinfo = localtime (&time);
-    if (String(timeinfo->tm_hour) == "14") {
-    gfx.drawString(120, y - 15, WDAY_NAMES[timeinfo->tm_wday] + " ("+I18N_DAY+")");} else
-    {gfx.drawString(120, y - 15, WDAY_NAMES[timeinfo->tm_wday] + " ("+I18N_NIGHT+")");}
+
+    gfx.drawString(120, y - 15, WDAY_NAMES[timeinfo->tm_wday] + " " + ((timeinfo->tm_hour > 12) ? I18N_PM : I18N_AM));
 
     gfx.drawPalettedBitmapFromPgm(0, 0 + y, getMiniMeteoconIconFromProgmem(forecasts[i].icon));
     gfx.setTextAlignment(TEXT_ALIGN_LEFT);

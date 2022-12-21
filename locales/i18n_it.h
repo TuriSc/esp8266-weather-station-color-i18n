@@ -47,8 +47,6 @@
 #define I18N_RAIN_SHORT                 "PI:"
 #define I18N_VISIBILITY                 "Visibilità:"
 #define I18N_FORECASTS                  "Previsioni"
-#define I18N_DAY                        "Giorno"
-#define I18N_NIGHT                      "Notte"
 #define I18N_AM                         "AM"
 #define I18N_PM                         "PM"
 #define I18N_WEATHER_STATION_RESET      "Reset della Stazione Meteo"
