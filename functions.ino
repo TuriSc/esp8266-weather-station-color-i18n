@@ -55,7 +55,7 @@ Serial.println("Load Adjustments ...");
   WIFI_SSID.trim();
   if (LittleFS.exists("/ssid-passwd.txt")){
   WIFI_PASS = SetupLoad("ssid-passwd.txt");} else {WIFI_PASS = "";}
-  WIFI_PASS.trim();  
+  WIFI_PASS.trim();
   if (LittleFS.exists("/owm-apikey.txt")){
   OPEN_WEATHER_MAP_API_KEY = SetupLoad("owm-apikey.txt");} else {OPEN_WEATHER_MAP_API_KEY = "";}
   OPEN_WEATHER_MAP_API_KEY.trim();
@@ -68,6 +68,8 @@ Serial.println("Load Adjustments ...");
   if (LittleFS.exists("/owm-timezone.txt")){
   TIMEZONE = SetupLoad("owm-timezone.txt");} else {TIMEZONE = "";}
   TIMEZONE.trim();
+  if (LittleFS.exists("/is-metric.txt")){
+  IS_METRIC = String(SetupLoad("is-metric.txt")).toInt();} else {IS_METRIC = 1;}
 
   // Check Update-Interval
   if (!IsNumeric(UWD)) {UWDInt = 10;} else {UWDInt = UWD.toInt();}
@@ -81,17 +83,20 @@ Serial.println("Load Adjustments ...");
 
 void savePropertiesToLittlefs() {
 if (isFSMounted == true)
-{
-Serial.println("Save Adjustments ...");
-SetupSave("ssid.txt", WIFI_SSID); // SSID WLAN
-SetupSave("ssid-passwd.txt", WIFI_PASS); // Password WLAN
-if (OPEN_WEATHER_MAP_API_KEY != "" && OPEN_WEATHER_MAP_LOCATION_ID != "") {
-SetupSave("owm-apikey.txt", OPEN_WEATHER_MAP_API_KEY);
-SetupSave("owm-cityid.txt", OPEN_WEATHER_MAP_LOCATION_ID);} else {
-if (LittleFS.exists("/owm-apikey.txt")){LittleFS.remove("/owm-apikey.txt");}
-if (LittleFS.exists("/owm-cityid.txt")){LittleFS.remove("/owm-cityid.txt");}} 
-SetupSave("owm-uwd.txt", UWD); // OpenWeatherMap update interval
-SetupSave("owm-timezone.txt", TIMEZONE);
+  {
+    Serial.println("Save Adjustments ...");
+    SetupSave("ssid.txt", WIFI_SSID); // SSID WLAN
+    SetupSave("ssid-passwd.txt", WIFI_PASS); // Password WLAN
+    SetupSave("is-metric.txt", String(IS_METRIC));
+    SetupSave("owm-uwd.txt", UWD); // OpenWeatherMap update interval
+    SetupSave("owm-timezone.txt", TIMEZONE);
+    if (OPEN_WEATHER_MAP_API_KEY != "" && OPEN_WEATHER_MAP_LOCATION_ID != "") {
+      SetupSave("owm-apikey.txt", OPEN_WEATHER_MAP_API_KEY);
+      SetupSave("owm-cityid.txt", OPEN_WEATHER_MAP_LOCATION_ID);
+    } else {
+      if (LittleFS.exists("/owm-apikey.txt")){LittleFS.remove("/owm-apikey.txt");}
+      if (LittleFS.exists("/owm-cityid.txt")){LittleFS.remove("/owm-cityid.txt");}
+    } 
   }  
 }
 
@@ -99,16 +104,16 @@ SetupSave("owm-timezone.txt", TIMEZONE);
 
 void ResetWeatherStation()
 {
-bool IsFileExist = false;
-LittleFS.format();
-if (OPEN_WEATHER_MAP_API_KEY != "" && OPEN_WEATHER_MAP_LOCATION_ID != "") {
-SetupSave("owm-apikey.txt", OPEN_WEATHER_MAP_API_KEY); 
-SetupSave("owm-cityid.txt", OPEN_WEATHER_MAP_LOCATION_ID);}
-SetupSave("owm-uwd.txt", UWD);
-SetupSave("owm-timezone.txt", TIMEZONE);
-MyWaitLoop(500);
-Serial.println("Reset - Restarting");
-ESP.restart();   
+  bool IsFileExist = false;
+  LittleFS.format();
+    if (LittleFS.exists("/is-metric.txt")){LittleFS.remove("/is-metric.txt");}
+    if (OPEN_WEATHER_MAP_API_KEY != "" && OPEN_WEATHER_MAP_LOCATION_ID != "") {
+      SetupSave("owm-apikey.txt", OPEN_WEATHER_MAP_API_KEY); 
+      SetupSave("owm-cityid.txt", OPEN_WEATHER_MAP_LOCATION_ID);
+      }
+    MyWaitLoop(500);
+    Serial.println("Reset - Restarting");
+    ESP.restart();   
 }
 
 // *****************************************************************************************************************************************************

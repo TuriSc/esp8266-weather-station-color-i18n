@@ -31,6 +31,7 @@
 #define I18N_UPDATING_ASTRONOMY         "Updating astronomy"
 #define I18N_LAST_UPDATE                "Last update:"
 #define I18N_INTERNAL_TEMPERATURE_SHORT "Inter:"
+#define I18N_IS_METRIC                  "Metric system"
 
 #define I18N_TEMPERATURE                "Temperature:"
 #define I18N_TEMPERATURE_SHORT          "TE:"
