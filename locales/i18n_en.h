@@ -17,7 +17,6 @@
 #define I18N_WEBSITE_NOT_FOUND          "Website not found"
 #define I18N_FORMATTING_FILE_SYSTEM     "Formatting file system"
 #define I18N_FORMATTING_DONE            "Formatting done"
-#define I18N_WIFI_MANAGER_LAUNCHING     "WiFi Manager launching"
 #define I18N_WIFI_MANAGER_LAUNCHED      "WiFi Manager launched"
 #define I18N_IP_ADDRESS                 "IP address: "
 #define I18N_INCORRECT_LOGIN_DETIALS    "Incorrett login details?"
@@ -32,6 +31,8 @@
 #define I18N_LAST_UPDATE                "Last update:"
 #define I18N_INTERNAL_TEMPERATURE_SHORT "Inter:"
 #define I18N_IS_METRIC                  "Metric system"
+#define I18N_WIFI_NO_LONGER_AVAILABLE   "WiFi non più disponibile"
+#define I18N_TRIPLE_CLICK_TO_RESET      "Triplo clic per resettare"
 
 #define I18N_TEMPERATURE                "Temperature:"
 #define I18N_TEMPERATURE_SHORT          "TE:"

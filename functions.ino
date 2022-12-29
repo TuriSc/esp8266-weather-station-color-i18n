@@ -19,31 +19,32 @@ void connectWifi() {
   int counter = 0;
   WiFiConnectLoop = 0;
   while (WiFi.status() != WL_CONNECTED) {
-    MyWaitLoop(500);
+    MyWaitLoop(1000);
     if (i > 98) i = 0;
     drawProgress(i,"WiFi: " + String(WIFI_SSID.c_str()));
     i += 10;
     Serial.print(".");
     WiFiConnectLoop += 1;
-    counter = MaxWiFiConnectLoop - WiFiConnectLoop;
-    gfx.setTextAlignment(TEXT_ALIGN_CENTER);
-    if (WiFiConnectLoop > 20) {
-    gfx.drawString(120, 270, I18N_WIFI_MANAGER_LAUNCHING);
-    gfx.drawString(120, 290, (String)counter);
-    gfx.commit();}  
-    if (WiFiConnectLoop >= MaxWiFiConnectLoop) {break;}
+    counter = 30 - WiFiConnectLoop;
+    if (WiFiConnectLoop > 15) {
+      gfx.setTextAlignment(TEXT_ALIGN_CENTER);
+      gfx.drawString(120, 220, I18N_WIFI_NO_LONGER_AVAILABLE);
+      gfx.drawString(120, 240, I18N_TRIPLE_CLICK_TO_RESET);
+      gfx.commit();
+      if(button.getEvent() == pb::PushButton::Event::TRIPLE_PRESS) resetWeatherStation();
+    }
+    if (WiFiConnectLoop >= 30) {break;}
   }
-  if (WiFi.status() != WL_CONNECTED) { 
-  Serial.println("RESET - Restarting");
-  ResetWeatherStation();} else {
-  drawProgress(100,"WiFi: " + String(WIFI_SSID.c_str()));
-  Serial.println("connected.");
-  Serial.printf("Connected, IP address: %s/%s\n", WiFi.localIP().toString().c_str(), WiFi.subnetMask().toString().c_str()); //Get ip and subnet mask
-  Serial.printf("Connected, MAC address: %s\n", WiFi.macAddress().c_str());  //Get the local mac address
+  if (WiFi.status() != WL_CONNECTED) {
+    Serial.println("Wifi not available");
+    promptReset = true;
+    } else {
+    drawProgress(100,"WiFi: " + String(WIFI_SSID.c_str()));
+    Serial.println("connected.");
+    Serial.printf("Connected, IP address: %s/%s\n", WiFi.localIP().toString().c_str(), WiFi.subnetMask().toString().c_str()); //Get ip and subnet mask
+    Serial.printf("Connected, MAC address: %s\n", WiFi.macAddress().c_str());  //Get the local mac address
   }
 }
-
-// *****************************************************************************************************************************************************
 
 void loadPropertiesFromLittlefs() {
   if (isFSMounted == true)
@@ -100,13 +101,11 @@ if (isFSMounted == true)
   }  
 }
 
-// *****************************************************************************************************************************************************
-
-void ResetWeatherStation()
+void resetWeatherStation()
 {
   bool IsFileExist = false;
   LittleFS.format();
-    if (LittleFS.exists("/is-metric.txt")){LittleFS.remove("/is-metric.txt");}
+    // if (LittleFS.exists("/is-metric.txt")){LittleFS.remove("/is-metric.txt");}
     if (OPEN_WEATHER_MAP_API_KEY != "" && OPEN_WEATHER_MAP_LOCATION_ID != "") {
       SetupSave("owm-apikey.txt", OPEN_WEATHER_MAP_API_KEY); 
       SetupSave("owm-cityid.txt", OPEN_WEATHER_MAP_LOCATION_ID);
@@ -154,19 +153,17 @@ void initTime() {
     drawProgress(i, I18N_UPDATING_CLOCK);
     Serial.print(".");
     WiFiConnectLoop += 1;
-    if (WiFiConnectLoop >= MaxWiFiConnectLoop) {break;}
-    MyWaitLoop(500);
+    if (WiFiConnectLoop >= 60) {break;}
+    MyWaitLoop(1000);
     i++;
   }
-  if (WiFiConnectLoop >= MaxWiFiConnectLoop) {ESP.restart();}
+  if (WiFiConnectLoop >= 60) {ESP.restart();}
   drawProgress(100, I18N_CLOCK_UPDATED);
   Serial.println();
 
   printf("Local time: %s", asctime(localtime(&now))); // print formated local time, same as ctime(&now)
   printf("UTC time:   %s", asctime(gmtime(&now)));    // print formated GMT/UTC time
 }
-
-// *****************************************************************************************************************************************************
 
 void MyWaitLoop(int wlt)
 {// Pause Loop
@@ -725,7 +722,7 @@ char* make12_24(int hour){
   return hr;
 }
 
-void ResetWeatherStationScreen(){ 
+void resetWeatherStationScreen(){ 
   gfx.clear();
   gfx.fillBuffer(MINI_BLACK);
   gfx.drawPalettedBitmapFromPgm(20, 5, ThingPulseLogo);
@@ -735,7 +732,6 @@ void ResetWeatherStationScreen(){
   gfx.drawString(120, 90, I18N_WEATHER_STATION);
   gfx.drawString(120, 160, I18N_WEATHER_STATION_RESET);  
   gfx.drawString(120, 180, I18N_CLICK_TO_CANCEL);
-  //gfx.drawString(120, 270, I18N_WIFI_MANAGER_LAUNCHING);
   if (screen == 5){
     if(WSReset > 0){
       Serial.print(".");
@@ -744,7 +740,7 @@ void ResetWeatherStationScreen(){
       WSReset--;
     } else {
       Serial.print("Resetting weather station");
-      ResetWeatherStation();
+      resetWeatherStation();
     }
   }
 }

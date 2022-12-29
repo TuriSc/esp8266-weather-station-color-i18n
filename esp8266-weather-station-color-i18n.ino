@@ -104,7 +104,7 @@ char* make12_24(int hour);
 
 bool isFSMounted = false;
 int WiFiConnectLoop = 0;
-int MaxWiFiConnectLoop = 350;
+bool promptReset;
 
 int waitloop = 0; 
 int WSReset = 0;
@@ -186,13 +186,9 @@ void setup() {
   dividerTop = 0; // Default 64
   dividerBottom = gfx.getHeight() - dividerTop;
   dividerMiddle = gfx.getWidth() / 2;
-  Serial.println("dividerTop = "+ (String)dividerTop);
-  Serial.println("dividerBottom = "+ (String)dividerBottom);
-  Serial.println("dividerMiddle = "+ (String)dividerMiddle);
 
   connectWifi();
 
-  // #######################################################################################
   // Arduino OTA/DNS
   Serial.println("Arduino OTA/DNS-Server started");
   ArduinoOTA.setHostname(APSSID);
@@ -202,7 +198,6 @@ void setup() {
   Serial.printf("Progress: %u%%\r", (progress / (total / 100)));});
   ArduinoOTA.onError([](ota_error_t error) {(void)error;ESP.restart();});
   ArduinoOTA.begin();
-  // #####################################################################################
 
   carousel.setFrames(frames, frameCount);
   carousel.disableAllIndicators();
@@ -225,7 +220,8 @@ void setup() {
   gfx.commit();   
   MyWaitLoop(5000);
   updateData(); // Try Next Update
-  if (OWMupdateData > 4) {ResetWeatherStation();}}
+  if (OWMupdateData > 4) promptReset = true;
+  }
 
   timerPress = millis();
 
@@ -281,8 +277,6 @@ void setup() {
   }
 
   sensors.begin();
-  // sensors.getAddress(insideThermometer, 0);
-  // sensors.setResolution(9); // One decimal place
 }
 
 // *****************************************************************************************************************************************************
@@ -291,8 +285,7 @@ void loop() {
 if (WIFI_SSID == "" | WIFI_PASS == "" | OPEN_WEATHER_MAP_API_KEY == "" | OPEN_WEATHER_MAP_LOCATION_ID == "") {
   server.handleClient();
   dnsServer.processNextRequest();
-  } else
-{  
+  } else {  
    WiFi.mode(WIFI_STA);
   if (WiFi.status() == WL_CONNECTED) 
   {
@@ -350,7 +343,7 @@ if (WIFI_SSID == "" | WIFI_PASS == "" | OPEN_WEATHER_MAP_API_KEY == "" | OPEN_WE
     } else if (screen == 4) {
       drawAbout();
     } else if (screen == 5) {
-      ResetWeatherStationScreen();  
+      resetWeatherStationScreen();  
     }
     if(screen != 5) {
       WSReset = 30; // Reset the countdown timer
@@ -363,7 +356,9 @@ if (WIFI_SSID == "" | WIFI_PASS == "" | OPEN_WEATHER_MAP_API_KEY == "" | OPEN_WE
       lastDownloadUpdate = millis();
     }
   }
-  } else {connectWifi();}
+  } else { // wifi status is not connected
+    connectWifi();
+  }
 }
 }
 // *****************************************************************************************************************************************************
