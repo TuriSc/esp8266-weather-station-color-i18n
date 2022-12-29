@@ -148,7 +148,6 @@ void setup() {
   // The LED pin needs to set HIGH
   // Use this pin to save energy
   // Turn on the background LED
-  Serial.println(TFT_LED);
   pinMode(TFT_LED, OUTPUT);
   digitalWrite(TFT_LED, HIGH);    // HIGH to Turn on;
 
@@ -196,7 +195,7 @@ void setup() {
   // #######################################################################################
   // Arduino OTA/DNS
   Serial.println("Arduino OTA/DNS-Server started");
-  ArduinoOTA.setHostname(WIFI_HOSTNAME);
+  ArduinoOTA.setHostname(APSSID);
   ArduinoOTA.setPassword(OTA_PASSWORD);
   ArduinoOTA.onEnd([]() {Serial.println("\nEnd");});
   ArduinoOTA.onProgress([](unsigned int progress, unsigned int total) {

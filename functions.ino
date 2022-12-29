@@ -13,7 +13,7 @@ void connectWifi() {
   //Manual Wifi
   Serial.printf("Connecting to WiFi SSID:  %s", WIFI_SSID.c_str());
   WiFi.disconnect();
-  WiFi.hostname(WIFI_HOSTNAME);
+  WiFi.hostname(APSSID);
   WiFi.begin(WIFI_SSID.c_str(), WIFI_PASS.c_str());
   int i = 0;
   int counter = 0;
@@ -46,10 +46,10 @@ void connectWifi() {
 // *****************************************************************************************************************************************************
 
 void loadPropertiesFromLittlefs() {
-if (isFSMounted == true)
-{
-int UWDInt = 0;  
-Serial.println("Load Adjustments ...");
+  if (isFSMounted == true)
+  {
+  int UWDInt = 0;  
+  Serial.println("Load Adjustments ...");
   if (LittleFS.exists("/ssid.txt")){
   WIFI_SSID = SetupLoad("ssid.txt");} else {WIFI_SSID = "";}
   WIFI_SSID.trim();

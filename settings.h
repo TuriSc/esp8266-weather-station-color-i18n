@@ -33,7 +33,7 @@ String WIFI_SSID = ""; // set from WiFiManager (AccessPoint)
 String WIFI_PASS = ""; // set from WiFiManager (AccessPoint)
 String TZ_LOCATION = "Europe/Rome"; // can be changed from WiFiManager (AccessPoint)
 int IS_METRIC = 1; // values in metric or imperial system? // can be changed from WiFiManager (AccessPoint)
-#define WIFI_HOSTNAME I18N_WEATHER_STATION
+#define APSSID I18N_WEATHER_STATION
 
 int UPDATE_INTERVAL_SECS = 20 * 60; // Update every 10 minutes - default
 const int SLEEP_INTERVAL_SECS = 60;  // Going to sleep after idle times, set 0 for insomnia
